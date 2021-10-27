@@ -81,7 +81,7 @@ int main(void)
 		//transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
 
 		/* Rotation */
-		//transform = glm::rotate(transform, (GLfloat)(3.14), glm::vec3(0.0f, 0.0f, 1.0f));
+		transform = glm::rotate(transform, (GLfloat)(3.14), glm::vec3(0.0f, 0.0f, 1.0f));
 
 		/* Scaling */
 		//transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 0.0f));
@@ -96,8 +96,8 @@ int main(void)
 			transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));*/
 
 		/* animation example:  */
-		GLfloat dx = (GLfloat)(glm::abs(glm::sin(glfwGetTime()))*0.5);
-		transform = glm::translate(transform, glm::vec3(dx, 0.0f, 0.0f));
+		/*GLfloat dx = (GLfloat)(glm::abs(glm::sin(glfwGetTime())) * 0.5);
+		transform = glm::translate(transform, glm::vec3(dx, 0.0f, 0.0f));*/
 
 
 		// Get matrix's uniform location and set matrix
