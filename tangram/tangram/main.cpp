@@ -39,24 +39,43 @@ int main(void)
 	glViewport(0, 0, 640, 640);
 
 	//++++++++++Set up vertex data (and buffer(s)) and attribute pointers+++++++++
-	GLfloat vertices[] = {
-		-0.5f, -0.5f, 0.0f, // Left  
-		0.5f, -0.5f, 0.0f, // Right 
-		0.0f,  0.5f, 0.0f  // Top   
+	GLfloat firstTriangle[] = {
+		// Position data,     colour data
+		-0.9f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Left  
+		0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Right 
+		-0.45f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Top   
 	};
 
-	GLuint VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	GLfloat secondTriangle[] = {
+		// Position data,     colour data
+		0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // Left  
+		0.9f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // Right 
+		0.45f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // Top   
+	};
+
+	GLuint VBOs[2], VAOs[2];
+	glGenVertexArrays(2, VAOs);
+	glGenBuffers(2, VBOs);
 
 	// ================================
 	// buffer setup
 	// ===============================
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+	glBindVertexArray(VAOs[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(firstTriangle), firstTriangle, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
+	glBindVertexArray(0);
+
+	glBindVertexArray(VAOs[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(secondTriangle), secondTriangle, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 	glBindVertexArray(0);
 
 	//++++++++++Build and compile shader program+++++++++++++++++++++
@@ -81,7 +100,7 @@ int main(void)
 		//transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
 
 		/* Rotation */
-		transform = glm::rotate(transform, (GLfloat)(3.14), glm::vec3(0.0f, 0.0f, 1.0f));
+		//transform = glm::rotate(transform, (GLfloat)(3.14), glm::vec3(0.0f, 0.0f, 1.0f));
 
 		/* Scaling */
 		//transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 0.0f));
@@ -105,7 +124,17 @@ int main(void)
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
 		// draw object
-		glBindVertexArray(VAO);
+		glBindVertexArray(VAOs[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		//second triangle
+		transform = glm::mat4();
+
+		// Get matrix's uniform location and set matrix
+		transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
+		glBindVertexArray(VAOs[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glBindVertexArray(0);
@@ -117,8 +146,8 @@ int main(void)
 		glfwPollEvents();
 	}
 	// Properly de-allocate all resources once they've outlived their purpose
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, VAOs);
+	glDeleteBuffers(1, VBOs);
 
 	glfwTerminate();
 	return 0;
