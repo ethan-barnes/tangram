@@ -39,45 +39,74 @@ int main(void)
 	glViewport(0, 0, 640, 640);
 
 	//++++++++++Set up vertex data (and buffer(s)) and attribute pointers+++++++++
-	GLfloat firstTriangle[] = {
+	GLfloat largeTriangle1[] = {
 		// Position data,     colour data
-		-0.9f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Left  
-		0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Right 
-		-0.45f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Top   
+		0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // Left  
+		0.2f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f, // Right 
+		0.0f,  0.4f, 0.0f, 1.0f, 0.0f, 0.0f, // Top   
 	};
 
-	GLfloat secondTriangle[] = {
+	GLfloat largeTriangle2[] = {
 		// Position data,     colour data
-		0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // Left  
-		0.9f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // Right 
-		0.45f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // Top   
+		0.2f, 0.2f, 0.0f, 0.0f, 0.0f, 1.0f, // Left  
+		0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 1.0f, // Right 
+		0.0f,  0.4f, 0.0f, 0.0f, 0.0f, 1.0f, // Top   
 	};
 
-	GLuint VBOs[2], VAOs[2];
-	glGenVertexArrays(2, VAOs);
-	glGenBuffers(2, VBOs);
+	GLfloat mediumTriangle[] = {
+		// Position data,     colour data
+		0.2f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Left  
+		0.4f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Right 
+		0.4f,  0.2f, 0.0f, 0.0f, 1.0f, 0.0f, // Top   
+	};
+
+	int ptr[3] = {*largeTriangle1, *largeTriangle2, *mediumTriangle};
+	//std::cout << &largeTriangle2 << "\n";
+	std::cout << ptr[1];
+
+	GLuint VBOs[3], VAOs[3];
+	glGenVertexArrays(3, VAOs);
+	glGenBuffers(3, VBOs);
 
 	// ================================
 	// buffer setup
 	// ===============================
-	glBindVertexArray(VAOs[0]);
-	glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(firstTriangle), firstTriangle, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-	glBindVertexArray(0);
+	for (int i = 0; i < sizeof(VAOs); i++) {
+		glBindVertexArray(VAOs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, VBOs[i]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ptr[i]), &ptr[i], GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(1);
+		glBindVertexArray(0);
+	}
+	//glBindVertexArray(VAOs[0]);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(largeTriangle1), largeTriangle1, GL_STATIC_DRAW);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	//glEnableVertexAttribArray(1);
+	//glBindVertexArray(0);
 
-	glBindVertexArray(VAOs[1]);
-	glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(secondTriangle), secondTriangle, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-	glBindVertexArray(0);
+	//glBindVertexArray(VAOs[1]);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(largeTriangle2), largeTriangle2, GL_STATIC_DRAW);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	//glEnableVertexAttribArray(1);
+	//glBindVertexArray(0);
 
+	//glBindVertexArray(VAOs[2]);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBOs[2]);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(mediumTriangle), mediumTriangle, GL_STATIC_DRAW);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	//glEnableVertexAttribArray(1);
+	//glBindVertexArray(0);
 	//++++++++++Build and compile shader program+++++++++++++++++++++
 	GLuint shaderProgram = initShader("vert.glsl", "frag.glsl");
 
@@ -85,17 +114,6 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		/* Render here */
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		// Draw the first Triangle
-		// use shader
-		glUseProgram(shaderProgram);
-
-		//+++++++ Define transform matrix (uncomment the transform matrix you want to create)+++++++
-		glm::mat4 transform;
-
 		/* Translation */
 		//transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
 
@@ -119,6 +137,19 @@ int main(void)
 		transform = glm::translate(transform, glm::vec3(dx, 0.0f, 0.0f));*/
 
 
+
+
+		/* Render here */
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		// Draw the first Triangle
+		// use shader
+		glUseProgram(shaderProgram);
+
+		//large triangle1//////////////////////////////////////////////
+		glm::mat4 transform;
+
 		// Get matrix's uniform location and set matrix
 		GLint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
@@ -127,14 +158,28 @@ int main(void)
 		glBindVertexArray(VAOs[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		//second triangle
+		//large triangle2////////////////////////////////////////////
 		transform = glm::mat4();
+
+		/* Rotation */
+		//transform = glm::rotate(transform, (GLfloat)(3.14), glm::vec3(0.0f, 0.0f, 1.0f));
 
 		// Get matrix's uniform location and set matrix
 		transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
 		glBindVertexArray(VAOs[1]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		//meidum triangle////////////////////////////////////////////
+		transform = glm::mat4();
+
+		// Get matrix's uniform location and set matrix
+		transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
+		// draw object
+		glBindVertexArray(VAOs[2]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glBindVertexArray(0);
