@@ -1,5 +1,5 @@
 #version 330 core
-int vec3 My_color;
+in vec3 My_color;
 out vec4 color;
 
 void main()
