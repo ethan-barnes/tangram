@@ -185,7 +185,7 @@ int main(void)
 	makeTriangle(smallTriangle1, 3);
 	makeTriangle(smallTriangle2, 4);
 	makeSquare(square, indices, 5);
-	makeSquare(parallelogram, indices, 7);
+	makeSquare(parallelogram, indices, 6);
 
 
 	//++++++++++Build and compile shader program+++++++++++++++++++++
@@ -237,9 +237,8 @@ int main(void)
 		drawTriangle(transform, 2);
 		drawTriangle(transform, 3);
 		drawTriangle(transform, 4);
-		drawTriangle(transform, 5);
+		drawSquare(transform, 5);
 		drawSquare(transform, 6);
-		drawSquare(transform, 8);
 		
 		//GLuint shaderProgram = initShader("vert.glsl", "frag.glsl");
 		//glUseProgram(shaderProgram);
