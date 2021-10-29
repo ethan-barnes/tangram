@@ -15,7 +15,7 @@
 #include "shader.h"
 
 
-GLuint VBOs[9], VAOs[9], EBOs[2];
+GLuint VBOs[7], VAOs[7], EBOs[2];
 
 void makeTriangle(GLfloat arr[], int index) {
 	GLfloat newArr[18];
@@ -171,8 +171,8 @@ int main(void)
 	};
  
 
-	glGenVertexArrays(9, VAOs);
-	glGenBuffers(9, VBOs);
+	glGenVertexArrays(7, VAOs);
+	glGenBuffers(7, VBOs);
 	glGenBuffers(2, EBOs);
 
 	// ================================
