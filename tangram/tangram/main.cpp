@@ -34,8 +34,8 @@ void makeTriangle(GLfloat arr[], int index) {
 }
 
 void makeSquare(GLfloat arr[], GLuint indices[], int index) {
-	GLfloat newArr[12];
-	for (int i = 0; i < 12; i++) {
+	GLfloat newArr[24];
+	for (int i = 0; i < 24; i++) {
 		newArr[i] = arr[i];
 	}
 
@@ -153,10 +153,10 @@ int main(void)
 
 	GLfloat square[] = {
 		// Position data,    colour data
-		0.3f, 0.3f, 0.0f, 1.0f, 0.0f, 1.0f,  // Top
-		0.2f, 0.2f, 0.0f, 1.0f, 0.0f, 1.0f, // Left
-		0.4f, 0.2f, 0.0f, 1.0f, 0.0f, 1.0f, // Right
-		0.3f, 0.1f, 0.0f, 1.0f, 0.0f, 1.0f, //Bottom
+		0.3f, 0.3f, 0.0f, 1.0f, 0.5f, 0.0f,  // Top
+		0.2f, 0.2f, 0.0f, 1.0f, 0.5f, 0.0f, // Left
+		0.4f, 0.2f, 0.0f, 1.0f, 0.5f, 0.0f, // Right
+		0.3f, 0.1f, 0.0f, 1.0f, 0.5f, 0.0f, //Bottom
 	};
 
 	GLuint indices[] = {
@@ -166,10 +166,10 @@ int main(void)
 
 	GLfloat parallelogram[] = {
 		// Position data,    colour data
-		0.1f, 0.1f, 0.0f, 0.0f, 0.0f, 1.0f,  // Top
-		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, // Left
-		0.3f, 0.1f, 0.0f, 0.0f, 0.0f, 1.0f, // Right
-		0.2f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, //Bottom
+		0.1f, 0.1f, 0.0f, 0.5f, 0.0f, 1.0f,  // Top
+		0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, // Left
+		0.3f, 0.1f, 0.0f, 0.5f, 0.0f, 1.0f, // Right
+		0.2f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, //Bottom
 	};
  
 
@@ -236,12 +236,17 @@ int main(void)
 
 		drawTriangle(transform, 0);
 		/* animation example: triangle translation */
+		GLfloat time = (GLfloat)glfwGetTime();
+		float delay = 0.5f;
 		glm::mat4 transform1;
-		if ((GLfloat)glfwGetTime() * 0.1f > 0.5 && (GLfloat)glfwGetTime() * 0.1f <= 1) {
-			transform1 = glm::translate(transform, glm::vec3((GLfloat)glfwGetTime() * 0.1f, 0.0f, 0.0f));
+		if (time * 0.1f > delay && time * 0.1f <= 1) {
+			transform1 = glm::translate(transform, glm::vec3((time * 0.1f) - delay, (time * 0.1f) - delay, 0.0f));
+		}
+		else if (time * 0.1f < 0.5){
+			transform1 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
 		}
 		else {
-			//transform1 = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
+			transform1 = glm::translate(transform, glm::vec3(delay, delay, 0.0f));
 		}
 
 		drawTriangle(transform1, 1);
