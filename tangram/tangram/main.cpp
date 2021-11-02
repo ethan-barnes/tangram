@@ -239,14 +239,17 @@ int main(void)
 		GLfloat time = (GLfloat)glfwGetTime();
 		float delay = 0.5f;
 		glm::mat4 transform1;
-		if (time * 0.1f > delay && time * 0.1f <= 1) {
+		glm::mat4 iden;
+		if (time * 0.1f > delay && time * 0.1f <= 0.7) {
 			transform1 = glm::translate(transform, glm::vec3((time * 0.1f) - delay, (time * 0.1f) - delay, 0.0f));
+			iden = glm::rotate(transform, (GLfloat)(3.14 / 4.0), glm::vec3(0.0f, 0.0f, 1.0f));
+			transform1 = glm::mix(iden, transform1, time * 0.1f);
 		}
 		else if (time * 0.1f < 0.5){
 			transform1 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
 		}
 		else {
-			transform1 = glm::translate(transform, glm::vec3(delay, delay, 0.0f));
+			transform1 = glm::translate(transform, glm::vec3(0.2, 0.2, 0.0f));
 		}
 
 		drawTriangle(transform1, 1);
