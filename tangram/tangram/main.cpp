@@ -193,6 +193,9 @@ int main(void)
 	//++++++++++Build and compile shader program+++++++++++++++++++++
 	GLuint shaderProgram = initShader("vert.glsl", "frag.glsl");
 
+	float CenterX = largeTriangle1[0] + largeTriangle1[6] + largeTriangle1[12] / 3;
+	float CenterY = largeTriangle1[1] + largeTriangle1[7] + largeTriangle1[13] / 3;
+	glm::vec4 center(CenterX, CenterY, 0.0f, 1.0f);
 	//++++++++++++++++++++++++++++++++++++++++++++++
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -245,20 +248,42 @@ int main(void)
 
 
 		glm::mat4 iden;
-		if (time * 0.1f > delay && time * 0.1f <= 0.7) {
-			transform0 = glm::translate(transform, glm::vec3((time * 0.1f) - delay, (time * 0.1f) - delay, 0.0f));
-			//iden = glm::rotate(transform, (GLfloat)(3.14 / 4.0), glm::vec3(0.0f, 0.0f, 1.0f));
+		if (time * 0.1f >= delay && time * 0.1f <= 3.14f) {
+			glm::mat4 rotate;
+
+			//glm::mat4 translate = glm::translate(transform, glm::vec3((time * 0.1f)-delay, (time * 0.1f)-delay, 0.0f));
+			//rotate = glm::translate(transform, glm::vec3(center.x, center.y, 0.0f));
+			//rotate = glm::rotate(rotate, (GLfloat)(time * 1.0f)-delay*10, glm::vec3(0.0f, 0.0f, -1.0f));
+			//rotate = glm::translate(rotate, glm::vec3(0 - center.x, 0 - center.y, 0.0f));
+
+			rotate = glm::translate(rotate, glm::vec3((time * 0.1f) - delay, (time * 0.1f) - delay, 0.0f));
+
+			glm::mat4 matrix = glm::translate(glm::mat4(), glm::vec3((time * 0.1f)-delay, (time * 0.1f)-delay, 0.0f));
+			center = matrix * center;
+
+			/*transform0 = glm::translate(transform0, glm::vec3(center.x, center.y, 0.0f));
+			glm::mat4 rotate = glm::rotate(transform0, (GLfloat)(glfwGetTime() * 1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			transform0 = glm::translate(transform0, glm::vec3(-center.x, -center.y, 0.0f));*/
+
+			//std::cout << center.x << "\n" << center.y << "\n";
+
+			std::cout << rotate[0].x  << " " << rotate[0].y << "\n";
+			std::cout << rotate[1].x << " " << rotate[1].y << "\n";
+			std::cout << rotate[2].x << " " << rotate[2].y << "\n";
+			std::cout << rotate[3].x << " " << rotate[3].y << "\n";
+			
+			transform0 = rotate;
 			//transform0 = glm::mix(iden, transform0, time * 0.1f);
 		}
 		else if (time * 0.1f < 0.5){
 			transform0 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
 		}
-		else {
+		//else {
 			//transform0 = glm::translate(transform0, glm::vec3(0.2, 0.2, 0.0f));
-			transform0 = glm::translate(transform0, glm::vec3(0.7333f, 0.4667f, 0.0f)); // translate to origin
-			transform0 = glm::rotate(transform0, (GLfloat)(glfwGetTime() * 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-			transform0 = glm::translate(transform0, glm::vec3(-0.7333f, -0.4667f, 0.0f));
-		}
+			//transform0 = glm::translate(transform0, glm::vec3(0.7333f, 0.4667f, 0.0f)); // translate to origin
+			//transform0 = glm::rotate(transform0, (GLfloat)(glfwGetTime() * 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+			//transform0 = glm::translate(transform0, glm::vec3(-0.7333f, -0.4667f, 0.0f));
+		//}
 
 		drawTriangle(transform0, 1);
 
