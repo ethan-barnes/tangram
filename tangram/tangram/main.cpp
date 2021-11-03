@@ -230,6 +230,10 @@ int main(void)
 		glUseProgram(shaderProgram);
 		
 		glm::mat4 transform;
+		glm::mat4 transform0;
+		glm::mat4 transform1;
+		glm::mat4 transform2;
+
 
 		// Get matrix's uniform location and set matrix
 		GLint transformLoc = glGetUniformLocation(shaderProgram, "transform");
@@ -238,22 +242,30 @@ int main(void)
 		/* animation example: triangle translation */
 		GLfloat time = (GLfloat)glfwGetTime();
 		float delay = 0.5f;
-		glm::mat4 transform1;
+
+
 		glm::mat4 iden;
 		if (time * 0.1f > delay && time * 0.1f <= 0.7) {
-			transform1 = glm::translate(transform, glm::vec3((time * 0.1f) - delay, (time * 0.1f) - delay, 0.0f));
-			iden = glm::rotate(transform, (GLfloat)(3.14 / 4.0), glm::vec3(0.0f, 0.0f, 1.0f));
-			transform1 = glm::mix(iden, transform1, time * 0.1f);
+			transform0 = glm::translate(transform, glm::vec3((time * 0.1f) - delay, (time * 0.1f) - delay, 0.0f));
+			//iden = glm::rotate(transform, (GLfloat)(3.14 / 4.0), glm::vec3(0.0f, 0.0f, 1.0f));
+			//transform0 = glm::mix(iden, transform0, time * 0.1f);
 		}
 		else if (time * 0.1f < 0.5){
-			transform1 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+			transform0 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
 		}
 		else {
-			transform1 = glm::translate(transform, glm::vec3(0.2, 0.2, 0.0f));
+			//transform0 = glm::translate(transform0, glm::vec3(0.2, 0.2, 0.0f));
+			transform0 = glm::translate(transform0, glm::vec3(0.7333f, 0.4667f, 0.0f)); // translate to origin
+			transform0 = glm::rotate(transform0, (GLfloat)(glfwGetTime() * 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+			transform0 = glm::translate(transform0, glm::vec3(-0.7333f, -0.4667f, 0.0f));
 		}
 
-		drawTriangle(transform1, 1);
-		drawTriangle(transform, 2);
+		drawTriangle(transform0, 1);
+
+		transform2 = glm::translate(transform2, glm::vec3(0.3333f, 0.0667f, 0.0f)); // translate to origin
+		transform2 = glm::rotate(transform2, (GLfloat)(glfwGetTime() * 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+		transform2 = glm::translate(transform2, glm::vec3(-0.3333f, -0.0667f, 0.0f));
+		drawTriangle(transform2, 2);
 		drawTriangle(transform, 3);
 		drawTriangle(transform, 4);
 		drawSquare(transform, 5);
