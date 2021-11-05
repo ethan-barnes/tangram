@@ -14,7 +14,6 @@
 
 #include "shader.h"
 
-
 GLuint VBOs[7], VAOs[7], EBOs[2];
 
 void makeTriangle(GLfloat arr[], int index) {
@@ -159,19 +158,18 @@ int main(void)
 		0.3f, 0.1f, 0.0f, 1.0f, 0.5f, 0.0f, //Bottom
 	};
 
+	GLfloat parallelogram[] = {
+			// Position data,    colour data
+			0.1f, 0.1f, 0.0f, 0.5f, 0.0f, 1.0f,  // Top
+			0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, // Left
+			0.3f, 0.1f, 0.0f, 0.5f, 0.0f, 1.0f, // Right
+			0.2f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, //Bottom
+		};
+
 	GLuint indices[] = {
 		0, 1, 2, // First triangle
 		1, 2, 3, // Second triangle
 	};
-
-	GLfloat parallelogram[] = {
-		// Position data,    colour data
-		0.1f, 0.1f, 0.0f, 0.5f, 0.0f, 1.0f,  // Top
-		0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, // Left
-		0.3f, 0.1f, 0.0f, 0.5f, 0.0f, 1.0f, // Right
-		0.2f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, //Bottom
-	};
- 
 
 	glGenVertexArrays(7, VAOs);
 	glGenBuffers(7, VBOs);
@@ -189,7 +187,6 @@ int main(void)
 	makeSquare(square, indices, 5);
 	makeSquare(parallelogram, indices, 6);
 
-
 	//++++++++++Build and compile shader program+++++++++++++++++++++
 	GLuint shaderProgram = initShader("vert.glsl", "frag.glsl");
 
@@ -201,39 +198,21 @@ int main(void)
 	float centerX3 = (mediumTriangle[0] + mediumTriangle[6] + mediumTriangle[12]) / 3;
 	float centerY3 = (mediumTriangle[1] + mediumTriangle[7] + mediumTriangle[13]) / 3;
 	glm::vec4 center3(centerX3, centerY3, 0.0f, 1.0f);
-	
+
+	float centerX4 = (smallTriangle1[0] + smallTriangle1[6] + smallTriangle1[12]) / 3;
+	float centerY4 = (smallTriangle1[1] + smallTriangle1[7] + smallTriangle1[13]) / 3;
+	glm::vec4 center4(centerX4, centerY4, 0.0f, 1.0f);
+
+	float centerX5 = (smallTriangle2[0] + smallTriangle2[6] + smallTriangle2[12]) / 3;
+	float centerY5 = (smallTriangle2[1] + smallTriangle2[7] + smallTriangle2[13]) / 3;
+	glm::vec4 center5(centerX5, centerY5, 0.0f, 1.0f);
+	glm::vec4 center6(0.3f, 0.2f, 0.0f, 1.0f);
 	glm::vec4 center7(0.15f, 0.05f, 0.0f, 1.0f);
 
-	//std::cout << centerX3 << " " << centerY3 << "\n";
 	//++++++++++++++++++++++++++++++++++++++++++++++
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		/* Translation */
-		//transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
-
-		/* Rotation */
-		//transform = glm::rotate(transform, (GLfloat)(3.14), glm::vec3(0.0f, 0.0f, 1.0f));
-
-		/* Scaling */
-		//transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 0.0f));
-
-		/* animation example: triangle rotation */
-		//transform = glm::rotate(transform, (GLfloat)(glfwGetTime()*0.5f), glm::vec3(0.0f, 0.0f, 1.0f));
-
-		/* animation example: triangle translation */
-		/*if ((GLfloat)glfwGetTime() * 0.1f <= 0.5)
-			transform = glm::translate(transform, glm::vec3((GLfloat)glfwGetTime() * 0.1f, 0.0f, 0.0f));
-		else
-			transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));*/
-
-		/* animation example:  */
-		/*GLfloat dx = (GLfloat)(glm::abs(glm::sin(glfwGetTime())) * 0.5);
-		transform = glm::translate(transform, glm::vec3(dx, 0.0f, 0.0f));*/
-
-
-
-
 		/* Render here */
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -245,8 +224,10 @@ int main(void)
 		glm::mat4 transform0;
 		glm::mat4 transform1;
 		glm::mat4 transform2;
+		glm::mat4 transform3;
+		glm::mat4 transform4;
+		glm::mat4 transform5;
 		glm::mat4 transform6;
-
 
 		// Get matrix's uniform location and set matrix
 		GLint transformLoc = glGetUniformLocation(shaderProgram, "transform");
@@ -321,10 +302,82 @@ int main(void)
 			transform2 = glm::translate(transform2, glm::vec3(-center3.x, -center3.y, 0.0f));
 		}
 
+		//transform3 (yellow)
+		// Initial translation to final position (delay of 0.5 time)
+		if (time * 0.1f >= delay && time * 0.1f <= 0.7f) {
+			transform3 = glm::translate(transform, glm::vec3(((time * 0.1f) - delay) * (-0.4), ((time * 0.1f) - delay) * 2.15, 0.0f));
+		}
+		// Before delay is finished, translate to stating position
+		else if (time * 0.1f < 0.5) {
+			transform3 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+		}
+		else if (time * 0.1f > 0.7f) { // When shape has finished moving
+			// Translate to final position
+			transform3 = glm::translate(transform3, glm::vec3(-0.08f, 0.43f, 0.0f));
+			transform3 = glm::translate(transform3, glm::vec3(center4.x, center4.y, 0.0f)); // translate to origin
+			if (((time * 0.1f) - 0.71) < 0.078f) {
+				// Rotate until final rotation angle reached
+				transform3 = glm::rotate(transform3, (GLfloat)(time - 0.71), glm::vec3(0.0f, 0.0f, -1.0f));
+			}
+			else {
+				// Keep at final rotation angle until program ends
+				transform3 = glm::rotate(transform3, (GLfloat)(3.14 / 4), glm::vec3(0.0f, 0.0f, -1.0f));
+			}
+			transform3 = glm::translate(transform3, glm::vec3(-center4.x, -center4.y, 0.0f));
+		}
+
+		//transform4 (pink)
+		// Initial translation to final position (delay of 0.5 time)
+		if (time * 0.1f >= delay && time * 0.1f <= 0.7f) {
+			transform4 = glm::translate(transform, glm::vec3(((time * 0.1f) - delay) * (-1.45), ((time * 0.1f) - delay) * 1.8, 0.0f));
+		}
+		// Before delay is finished, translate to stating position
+		else if (time * 0.1f < 0.5) {
+			transform4 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+		}
+		else if (time * 0.1f > 0.7f) { // When shape has finished moving
+			// Translate to final position
+			transform4 = glm::translate(transform4, glm::vec3(-0.29f, 0.36f, 0.0f));
+			transform4 = glm::translate(transform4, glm::vec3(center5.x, center5.y, 0.0f)); // translate to origin
+			if (((time * 0.1f) - 0.71) < 0.078f) {
+				// Rotate until final rotation angle reached
+				transform4 = glm::rotate(transform4, (GLfloat)(time - 0.71), glm::vec3(0.0f, 0.0f, 1.0f));
+			}
+			else {
+				// Keep at final rotation angle until program ends
+				transform4 = glm::rotate(transform4, (GLfloat)(3.14 / 4), glm::vec3(0.0f, 0.0f, 1.0f));
+			}
+			transform4 = glm::translate(transform4, glm::vec3(-center5.x, -center5.y, 0.0f));
+		}
+
+		//transform5 (square)
+		// Initial translation to final position (delay of 0.5 time)
+		if (time * 0.1f >= delay && time * 0.1f <= 0.7f) {
+			transform5 = glm::translate(transform, glm::vec3(((time * 0.1f) - delay) * (-1.725), ((time * 0.1f) - delay) * 2.425, 0.0f));
+		}
+		// Before delay is finished, translate to stating position
+		else if (time * 0.1f < 0.5) {
+			transform5 = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+		}
+		else if (time * 0.1f > 0.7f) { // When shape has finished moving
+			// Translate to final position
+			transform5 = glm::translate(transform5, glm::vec3(-0.345f, 0.485f, 0.0f));
+			transform5 = glm::translate(transform5, glm::vec3(center6.x, center6.y, 0.0f)); // translate to origin
+			if (((time * 0.1f) - 0.71) < 0.078f) {
+				// Rotate until final rotation angle reached
+				transform5 = glm::rotate(transform5, (GLfloat)(time - 0.71), glm::vec3(0.0f, 0.0f, 1.0f));
+			}
+			else {
+				// Keep at final rotation angle until program ends
+				transform5 = glm::rotate(transform5, (GLfloat)(3.14 / 4), glm::vec3(0.0f, 0.0f, 1.0f));
+			}
+			transform5 = glm::translate(transform5, glm::vec3(-center6.x, -center6.y, 0.0f));
+		}
+
 		//transform6 (parallelogram)
 		// Initial translation to final position (delay of 0.5 time)
 		if (time * 0.1f >= delay && time * 0.1f <= 0.7f) {
-			transform6 = glm::translate(transform, glm::vec3((time * 0.1f) - delay, (time * 0.1f) - delay, 0.0f));
+			transform6 = glm::translate(transform, glm::vec3(((time * 0.1f) - delay) * 0.425, ((time * 0.1f) - delay) * 2.125, 0.0f));
 		}
 		// Before delay is finished, translate to stating position
 		else if (time * 0.1f < 0.5) {
@@ -332,7 +385,7 @@ int main(void)
 		}
 		else if (time * 0.1f > 0.7f) { // When shape has finished moving
 			// Translate to final position
-			transform6 = glm::translate(transform6, glm::vec3(0.15f, 0.15f, 0.0f));
+			transform6 = glm::translate(transform6, glm::vec3(0.085f, 0.425f, 0.0f));
 			transform6 = glm::translate(transform6, glm::vec3(center7.x, center7.y, 0.0f)); // translate to origin
 			if (((time * 0.1f) - 0.71) < 0.314f) {
 				// Rotate until final rotation angle reached
@@ -353,23 +406,10 @@ int main(void)
 		drawTriangle(transform0, 0);
 		drawTriangle(transform1, 1);
 		drawTriangle(transform2, 2);
-		drawTriangle(transform, 3);
-		drawTriangle(transform, 4);
-		drawSquare(transform, 5);
+		drawTriangle(transform3, 3);
+		drawTriangle(transform4, 4);
+		drawSquare(transform5, 5);
 		drawSquare(transform6, 6);
-		
-		//GLuint shaderProgram = initShader("vert.glsl", "frag.glsl");
-		//glUseProgram(shaderProgram);
-
-		//// Get matrix's uniform location and set matrix
-		//transformLoc = glGetUniformLocation(shaderProgram, "transform");
-		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
-		//// draw object
-		//glBindVertexArray(VAOs[6]);
-		//glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
-
-		//glBindVertexArray(0);
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
