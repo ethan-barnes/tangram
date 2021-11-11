@@ -393,7 +393,7 @@ int main(void)
 			}
 			else if (((time * 0.1f) - 0.71) >= 0.314f && ((time * 0.1f) - 0.71) <= 0.392f) {
 				transform6 = glm::rotate(transform6, (GLfloat)(3.14), glm::vec3(1.0f, 0.0f, 0.0f));
-				transform6 = glm::rotate(transform6, (GLfloat)(time - 0.314-0.7), glm::vec3(0.0f, 0.0f, 1.0f));
+				transform6 = glm::rotate(transform6, (GLfloat)(time - 0.814), glm::vec3(0.0f, 0.0f, 1.0f));
 			}
 			else {
 				// Keep at final rotation angle until program ends
