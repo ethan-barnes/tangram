@@ -245,8 +245,8 @@ int main(void)
 		else if (time * 0.1f > 0.7f) {
 			transform0 = glm::translate(transform0, glm::vec3(0.4285f, 0.235f, 0.0f));
 			transform0 = glm::translate(transform0, glm::vec3(center2.x, center2.y, 0.0f)); // translate to origin
-			if (((time * 0.1f) - 0.71) < 0.078f) {
-				transform0 = glm::rotate(transform0, (GLfloat)(time-0.71), glm::vec3(0.0f, 0.0f, -1.0f));
+			if (((time * 0.1f) - 0.71) < 0.07f) {
+				transform0 = glm::rotate(transform0, (GLfloat)(time-0.75), glm::vec3(0.0f, 0.0f, -1.0f));
 			}
 			else {
 				transform0 = glm::rotate(transform0, (GLfloat)(3.14/4), glm::vec3(0.0f, 0.0f, -1.0f));
@@ -291,9 +291,9 @@ int main(void)
 			// Translate to final position
 			transform2 = glm::translate(transform2, glm::vec3(0.1125f, 0.225f, 0.0f));
 			transform2 = glm::translate(transform2, glm::vec3(center3.x, center3.y, 0.0f)); // translate to origin
-			if (((time * 0.1f) - 0.71) < 0.078f) {
+			if (((time * 0.1f) - 0.71) < 0.07f) {
 				// Rotate until final rotation angle reached
-				transform2 = glm::rotate(transform2, (GLfloat)(time - 0.71), glm::vec3(0.0f, 0.0f, -1.0f));
+				transform2 = glm::rotate(transform2, (GLfloat)(time - 0.75), glm::vec3(0.0f, 0.0f, -1.0f));
 			}
 			else {
 				// Keep at final rotation angle until program ends
@@ -315,7 +315,7 @@ int main(void)
 			// Translate to final position
 			transform3 = glm::translate(transform3, glm::vec3(-0.08f, 0.43f, 0.0f));
 			transform3 = glm::translate(transform3, glm::vec3(center4.x, center4.y, 0.0f)); // translate to origin
-			if (((time * 0.1f) - 0.71) < 0.078f) {
+			if (((time * 0.1f) - 0.71) < 0.07f) {
 				// Rotate until final rotation angle reached
 				transform3 = glm::rotate(transform3, (GLfloat)(time - 0.71), glm::vec3(0.0f, 0.0f, -1.0f));
 			}
@@ -339,7 +339,7 @@ int main(void)
 			// Translate to final position
 			transform4 = glm::translate(transform4, glm::vec3(-0.29f, 0.36f, 0.0f));
 			transform4 = glm::translate(transform4, glm::vec3(center5.x, center5.y, 0.0f)); // translate to origin
-			if (((time * 0.1f) - 0.71) < 0.078f) {
+			if (((time * 0.1f) - 0.71) < 0.07f) {
 				// Rotate until final rotation angle reached
 				transform4 = glm::rotate(transform4, (GLfloat)(time - 0.71), glm::vec3(0.0f, 0.0f, 1.0f));
 			}
@@ -363,7 +363,7 @@ int main(void)
 			// Translate to final position
 			transform5 = glm::translate(transform5, glm::vec3(-0.345f, 0.485f, 0.0f));
 			transform5 = glm::translate(transform5, glm::vec3(center6.x, center6.y, 0.0f)); // translate to origin
-			if (((time * 0.1f) - 0.71) < 0.078f) {
+			if (((time * 0.1f) - 0.71) < 0.07f) {
 				// Rotate until final rotation angle reached
 				transform5 = glm::rotate(transform5, (GLfloat)(time - 0.71), glm::vec3(0.0f, 0.0f, 1.0f));
 			}
